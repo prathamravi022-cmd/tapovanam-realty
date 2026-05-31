@@ -1,0 +1,185 @@
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UpdatePropertyInput = 
+ record {
+   areaSizeSqFt: opt float64;
+   constructionFields: opt ConstructionSiteFields;
+   contactPhone: opt text;
+   contactWhatsApp: opt text;
+   description: opt text;
+   featured: opt bool;
+   isConstructionSite: opt bool;
+   latitude: opt float64;
+   legalStatus: opt LegalStatus;
+   locationName: opt text;
+   longitude: opt float64;
+   notes: opt text;
+   plotBoundary: opt text;
+   price: opt nat;
+   primaryImageIndex: opt nat;
+   tags: opt vec text;
+   title: opt text;
+ };
+type UpdatePartnerInput = 
+ record {
+   contactEmail: opt text;
+   contactPhone: opt text;
+   isVerified: opt bool;
+   logoUrl: opt text;
+   name: opt text;
+   specialization: opt text;
+   websiteUrl: opt text;
+ };
+type Timestamp = int;
+type PropertyStatus = 
+ variant {
+   available;
+   sold;
+ };
+type PropertyId = text;
+type Property = 
+ record {
+   areaSizeSqFt: float64;
+   constructionFields: opt ConstructionSiteFields;
+   contactPhone: opt text;
+   contactWhatsApp: opt text;
+   dateAdded: Timestamp;
+   description: text;
+   featured: bool;
+   images: vec ExternalBlob;
+   isConstructionSite: bool;
+   latitude: float64;
+   legalStatus: LegalStatus;
+   locationName: text;
+   longitude: float64;
+   notes: opt text;
+   ownerId: principal;
+   plotBoundary: opt text;
+   price: nat;
+   primaryImageIndex: nat;
+   propertyId: PropertyId;
+   status: PropertyStatus;
+   tags: vec text;
+   title: text;
+   viewCount: nat;
+ };
+type LegalStatus = 
+ variant {
+   approved;
+   not_approved;
+ };
+type ExternalBlob = blob;
+type DealerProfile = 
+ record {
+   bio: text;
+   designation: text;
+   email: text;
+   experience: text;
+   facebookUrl: text;
+   instagramUrl: text;
+   linkedinUrl: text;
+   name: text;
+   phone: text;
+   photoUrl: text;
+   whatsappNumber: text;
+ };
+type ConstructionSiteFields = 
+ record {
+   constructionStartDate: text;
+   currentPhase: text;
+   expectedCompletionDate: text;
+   liveUpdates: text;
+   progressPercentage: nat;
+   sitePhotos: vec ExternalBlob;
+ };
+type BuilderPartner = 
+ record {
+   contactEmail: text;
+   contactPhone: text;
+   createdAt: Timestamp;
+   id: text;
+   isVerified: bool;
+   logoUrl: text;
+   name: text;
+   specialization: text;
+   websiteUrl: text;
+ };
+type AddPropertyInput = 
+ record {
+   areaSizeSqFt: float64;
+   constructionFields: opt ConstructionSiteFields;
+   contactPhone: opt text;
+   contactWhatsApp: opt text;
+   description: text;
+   featured: bool;
+   isConstructionSite: bool;
+   latitude: float64;
+   legalStatus: LegalStatus;
+   locationName: text;
+   longitude: float64;
+   notes: opt text;
+   plotBoundary: opt text;
+   price: nat;
+   tags: vec text;
+   title: text;
+ };
+type AddPartnerInput = 
+ record {
+   contactEmail: text;
+   contactPhone: text;
+   isVerified: bool;
+   logoUrl: text;
+   name: text;
+   specialization: text;
+   websiteUrl: text;
+ };
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initializeAccessControl: () -> ();
+  addImageToProperty: (propertyId: PropertyId, image: ExternalBlob) -> ();
+  addPartner: (input: AddPartnerInput) -> (text);
+  addProperty: (input: AddPropertyInput) -> (PropertyId);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  deletePartner: (partnerId: text) -> ();
+  deleteProperty: (propertyId: PropertyId) -> ();
+  getAllPartners: () -> (vec BuilderPartner) query;
+  getAllProperties: () -> (vec Property) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getDealerProfile: () -> (opt DealerProfile) query;
+  getPartner: (partnerId: text) -> (opt BuilderPartner) query;
+  getProperty: (propertyId: PropertyId) -> (opt Property) query;
+  incrementViewCount: (propertyId: PropertyId) -> ();
+  isCallerAdmin: () -> (bool) query;
+  removeImageFromProperty: (propertyId: PropertyId, imageIndex: nat) -> ();
+  reorderImages: (propertyId: PropertyId, newOrder: vec nat) -> ();
+  setDealerProfile: (profile: DealerProfile) -> ();
+  setPrimaryImageIndex: (propertyId: PropertyId, index: nat) -> ();
+  setPropertyStatus: (propertyId: PropertyId, status: PropertyStatus) -> ();
+  updatePartner: (partnerId: text, input: UpdatePartnerInput) -> ();
+  updateProperty: (propertyId: PropertyId, input: UpdatePropertyInput) -> ();
+}

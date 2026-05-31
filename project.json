@@ -1,0 +1,27 @@
+{
+  "overview": "Tapovanam Realty Services is a mobile-first real estate catalog app for property management and customer presentation. Features open access property CRUD, interactive maps, construction site tracking, and builder partner showcase.",
+  "features": [
+    "Open access property management — add, edit, delete without login",
+    "Dealer profile with Shubham Sharma's professional details",
+    "Gold/amber premium colour scheme",
+    "WhatsApp integration on every property card",
+    "Construction Sites category with progress tracking",
+    "Authorised Builder Partners section with verified badges",
+    "Leaflet.js interactive maps with live location",
+    "3D tilt property cards with glassmorphism modals",
+    "Dark mode and Hindi/English language toggle",
+    "Admin dashboard with animated stats"
+  ],
+  "category": "productivity",
+  "tags": [
+    "real-estate",
+    "property-catalog",
+    "mobile-first",
+    "construction",
+    "builder-partners",
+    "whatsapp",
+    "maps",
+    "gold-theme"
+  ],
+  "last_updated": "2026-05-19T16:58:05.073Z"
+}
