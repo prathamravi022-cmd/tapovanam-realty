@@ -79,6 +79,8 @@ module {
       contactPhone = switch (input.contactPhone) { case (?v) ?v; case null existing.contactPhone };
       contactWhatsApp = switch (input.contactWhatsApp) { case (?v) ?v; case null existing.contactWhatsApp };
       plotBoundary = switch (input.plotBoundary) { case (?v) ?v; case null existing.plotBoundary };
+      isConstructionSite = switch (input.isConstructionSite) { case (?v) v; case null existing.isConstructionSite };
+      constructionFields = switch (input.constructionFields) { case (?v) ?v; case null existing.constructionFields };
     };
     properties.add(propertyId, updated);
   };
@@ -172,10 +174,22 @@ module {
       if (idx >= imgs.size()) Runtime.trap("Image index out of bounds");
       imgs[idx];
     });
+    func findNewPrimaryIndex(order : [Nat], oldIndex : Nat) : Nat {
+      func loop(i : Nat) : Nat {
+        if (i >= order.size()) Runtime.trap("Primary image index missing in reorder");
+        if (order[i] == oldIndex) {
+          i
+        } else {
+          loop(i + 1)
+        };
+      };
+      loop(0)
+    };
+    let newPrimary = findNewPrimaryIndex(newOrder, existing.primaryImageIndex);
     let updated : Types.Property = {
       existing with
       images = reordered;
-      primaryImageIndex = 0;
+      primaryImageIndex = newPrimary;
     };
     properties.add(propertyId, updated);
   };

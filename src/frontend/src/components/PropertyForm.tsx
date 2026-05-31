@@ -727,10 +727,14 @@ export function PropertyForm({ property, mode }: PropertyFormProps) {
             notes: values.notes.trim() || undefined,
             isConstructionSite: values.isConstructionSite,
             constructionFields: updateConstructionFields,
+            tags: values.tags ?? [],
+            featured: values.featured ?? false,
+            contactPhone: values.contactPhone.trim() || undefined,
+            contactWhatsApp: values.contactWhatsApp.trim() || undefined,
+            plotBoundary: values.plotBoundary.trim() || undefined,
           },
         });
-        // Extended UI fields (tags, featured, contactPhone, contactWhatsApp)
-        // are UI-only — backend schema doesn't include them yet.
+        // Backend supports the same extended fields for updates as it does for adds.
 
         const uploadedImages = images.filter((img) => img.uploaded);
         if (uploadedImages.length > 1) {
