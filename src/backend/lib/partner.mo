@@ -29,19 +29,19 @@ module {
     partnerId : Text,
     input : Types.UpdatePartnerInput,
   ) : () {
-    let existing = switch (partners.get(partnerId)) {
-      case (?existing) existing;
-      case null Runtime.trap("Partner not found");
-    };
-    partners.add(partnerId, { existing with
-      name = switch (input.name) { case null existing.name; case (?v) v };
-      logoUrl = switch (input.logoUrl) { case null existing.logoUrl; case (?v) v };
-      specialization = switch (input.specialization) { case null existing.specialization; case (?v) v };
-      contactPhone = switch (input.contactPhone) { case null existing.contactPhone; case (?v) v };
-      contactEmail = switch (input.contactEmail) { case null existing.contactEmail; case (?v) v };
-      websiteUrl = switch (input.websiteUrl) { case null existing.websiteUrl; case (?v) v };
-      isVerified = switch (input.isVerified) { case null existing.isVerified; case (?v) v };
-    });
+    switch (partners.get(partnerId)) {
+      case null {};
+      case (?existing) {
+        partners.add(partnerId, { existing with
+          name = switch (input.name) { case null existing.name; case (?v) v };
+          logoUrl = switch (input.logoUrl) { case null existing.logoUrl; case (?v) v };
+          specialization = switch (input.specialization) { case null existing.specialization; case (?v) v };
+          contactPhone = switch (input.contactPhone) { case null existing.contactPhone; case (?v) v };
+          contactEmail = switch (input.contactEmail) { case null existing.contactEmail; case (?v) v };
+          websiteUrl = switch (input.websiteUrl) { case null existing.websiteUrl; case (?v) v };
+          isVerified = switch (input.isVerified) { case null existing.isVerified; case (?v) v };
+        });
+      };
     };
   };
 
