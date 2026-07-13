@@ -12,11 +12,20 @@ import {
 import { useRef, useState } from "react";
 import type { ExternalBlob } from "../backend";
 
+import { Upload } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import type { ExternalBlob } from "../backend";
+
+/**
+ * Represents an image managed by the ImageManager component.
+ * Includes properties for both newly uploaded files and existing blobs.
+ */
 export interface ManagedImage {
   /** blob reference for existing uploaded images */
   blob?: ExternalBlob;
   /** local File object for newly selected images pending upload */
   file?: File;
+
   /** local preview URL (object URL for new files) */
   previewUrl: string;
   /** whether this image is uploaded to the backend */
@@ -164,12 +173,11 @@ export function ImageManager({
               {!img.uploaded && img.file && (
                 <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center gap-1">
                   <Loader2 className="w-5 h-5 text-white animate-spin" />
-                  {img.uploadProgress !== undefined &&
-                    img.uploadProgress > 0 && (
-                      <span className="text-white text-xs">
-                        {Math.round(img.uploadProgress)}%
-                      </span>
-                    )}
+                  {img.uploadProgress !== undefined && img.uploadProgress > 0 && (
+                    <span className="text-white text-xs">
+                      {Math.round(img.uploadProgress)}%
+                    </span>
+                  )}
                 </div>
               )}
 
